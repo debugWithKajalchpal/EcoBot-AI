@@ -1,0 +1,6 @@
+{
+  "name": "EcoBot AI",
+  "description": "An intelligent conversational carbon accountant, city/state/global questionnaire-driven emission tracker, and interactive dashboard to analyze and gamify carbon footprint reduction.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
