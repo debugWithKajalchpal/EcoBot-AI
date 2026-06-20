@@ -1,14 +1,17 @@
+import { useState } from 'react';
 import { DailyLog, UserProgress } from '../types';
 import { ResponsiveContainer, AreaChart, CartesianGrid, XAxis, YAxis, Tooltip, Area, BarChart, Bar, Cell } from 'recharts';
-import { Leaf, Award, Calendar, ChevronRight, Fuel, Flame, Coffee, Trash2, ShoppingBag, Download } from 'lucide-react';
+import { Leaf, Award, Calendar, ChevronRight, Fuel, Flame, Coffee, Trash2, ShoppingBag, Download, CircleAlert } from 'lucide-react';
 
 interface StatsDashboardProps {
   logs: DailyLog[];
   progress: UserProgress;
   onSelectLog: (log: DailyLog) => void;
+  onClearHistory?: () => void;
 }
 
-export default function StatsDashboard({ logs, progress, onSelectLog }: StatsDashboardProps) {
+export default function StatsDashboard({ logs, progress, onSelectLog, onClearHistory }: StatsDashboardProps) {
+  const [showDeleteConfirm, setShowDeleteConfirm] = useState(false);
   // Category configuration for color theme consistency
   const categoryMeta: Record<string, { label: string; color: string; icon: any }> = {
     transport: { label: 'Transportation', color: '#3b82f6', icon: Fuel },
@@ -213,18 +216,62 @@ export default function StatsDashboard({ logs, progress, onSelectLog }: StatsDas
       {/* Logs Table / Checklist */}
       {logs.length > 0 && (
         <div className="bg-white dark:bg-zinc-900 border border-zinc-100 dark:border-zinc-800 rounded-3xl p-5">
-          <div className="flex justify-between items-center mb-3">
-            <h3 className="text-sm font-bold text-zinc-950 dark:text-zinc-50 font-display">
-              Tracked History Log Book (EcoBot AI)
-            </h3>
-            <button
-              onClick={handleExportCSV}
-              type="button"
-              className="px-3.5 py-1.5 text-[10px] font-bold bg-emerald-500/10 hover:bg-emerald-500/20 text-emerald-400 border border-emerald-500/20 rounded-xl transition-all flex items-center gap-1.5 cursor-pointer"
-              title="Export emission factors history to CSV"
-            >
-              <Download className="w-3.5 h-3.5" /> Export as CSV
-            </button>
+          <div className="flex flex-col md:flex-row md:items-center justify-between gap-3 mb-4">
+            <div>
+              <h3 className="text-sm font-bold text-zinc-950 dark:text-zinc-50 font-display">
+                Tracked History Log Book (EcoBot AI)
+              </h3>
+              <p className="text-[10px] text-zinc-400 mt-0.5 font-sans">
+                Privacy pledge: We do not sell user data. Store only necessary carbon activity metrics. You can wipe data at any time.
+              </p>
+            </div>
+            <div className="flex items-center gap-2">
+              {!showDeleteConfirm ? (
+                <>
+                  <button
+                    onClick={handleExportCSV}
+                    type="button"
+                    className="px-3.5 py-1.5 text-[10px] font-bold bg-emerald-500/10 hover:bg-emerald-500/20 text-emerald-400 border border-emerald-500/20 rounded-xl transition-all flex items-center gap-1.5 cursor-pointer"
+                    title="Export emission factors history to CSV"
+                  >
+                    <Download className="w-3.5 h-3.5" /> Export as CSV
+                  </button>
+                  {onClearHistory && (
+                    <button
+                      onClick={() => setShowDeleteConfirm(true)}
+                      type="button"
+                      className="px-3.5 py-1.5 text-[10px] font-bold bg-red-500/10 hover:bg-red-500/20 text-red-550 dark:text-red-400 border border-red-500/20 rounded-xl transition-all flex items-center gap-1.5 cursor-pointer"
+                      title="Request deletion of all personal history"
+                    >
+                      <Trash2 className="w-3.5 h-3.5" /> Delete My Data
+                    </button>
+                  )}
+                </>
+              ) : (
+                <div className="flex items-center gap-2 bg-red-500/10 border border-red-500/20 p-1.5 rounded-xl text-[10px] animate-fade">
+                  <span className="text-red-500 dark:text-red-400 font-bold ml-1 flex items-center gap-1">
+                    <CircleAlert className="w-3.5 h-3.5" /> Confirm permanent deletion?
+                  </span>
+                  <button
+                    onClick={() => {
+                      if (onClearHistory) onClearHistory();
+                      setShowDeleteConfirm(false);
+                    }}
+                    type="button"
+                    className="px-2.5 py-1 bg-red-650 hover:bg-red-600 text-white font-bold rounded-lg cursor-pointer transition-colors"
+                  >
+                    Yes, Purge
+                  </button>
+                  <button
+                    onClick={() => setShowDeleteConfirm(false)}
+                    type="button"
+                    className="px-2.5 py-1 bg-zinc-200 hover:bg-zinc-300 dark:bg-zinc-800 dark:hover:bg-zinc-700 text-zinc-700 dark:text-zinc-300 rounded-lg cursor-pointer transition-colors"
+                  >
+                    Cancel
+                  </button>
+                </div>
+              )}
+            </div>
           </div>
           <div className="overflow-x-auto">
             <table className="w-full text-xs">

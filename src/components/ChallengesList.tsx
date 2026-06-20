@@ -201,6 +201,7 @@ export default function ChallengesList({
                     <button
                       type="button"
                       onClick={() => handleToggleCommit(ch.title)}
+                      aria-label={isCommitted ? `Cancel commit to ${ch.title}` : `Commit to daily custom quest: ${ch.title}`}
                       className={`flex-1 py-2 text-[10px] font-semibold rounded-xl border transition-all cursor-pointer text-center ${
                         isCommitted
                           ? 'bg-amber-500 border-amber-500 text-white hover:bg-amber-600'
@@ -212,6 +213,7 @@ export default function ChallengesList({
                     <button
                       type="button"
                       onClick={() => handleComplete(ch)}
+                      aria-label={`Mark daily custom quest completed: ${ch.title}`}
                       className="flex-1 py-2 text-[10px] font-bold rounded-xl bg-emerald-600 hover:bg-emerald-700 text-white transition-all flex items-center justify-center gap-1 cursor-pointer"
                     >
                       <Sparkles className="w-3 h-3" /> Execute Action

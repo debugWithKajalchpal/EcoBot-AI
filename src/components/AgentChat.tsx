@@ -120,6 +120,7 @@ export default function AgentChat({ userLogs, activeChallenge }: AgentChatProps)
         <button
           onClick={clearChat}
           title="Clear Conversation History"
+          aria-label="Clear Conversation History"
           className="text-zinc-400 hover:text-red-500 dark:hover:text-red-400 transition-colors p-2 hover:bg-zinc-50 dark:hover:bg-zinc-800 rounded-full"
         >
           <Trash2 className="w-4 h-4" />
@@ -205,11 +206,13 @@ export default function AgentChat({ userLogs, activeChallenge }: AgentChatProps)
           disabled={loading}
           onChange={(e) => setInputValue(e.target.value)}
           placeholder="Ask AI Coach tips... (e.g. 'Give vegetarian burger specs')"
+          aria-label="Ask AI Coach tips"
           className="flex-1 text-xs px-3.5 py-3 border border-zinc-200 dark:border-zinc-750 rounded-xl bg-white dark:bg-zinc-905 text-zinc-900 dark:text-zinc-100 focus:outline-none focus:border-emerald-500"
         />
         <button
           type="submit"
           disabled={loading || !inputValue.trim()}
+          aria-label="Send message"
           className="bg-emerald-600 hover:bg-emerald-700 disabled:opacity-40 text-white w-10 h-10 rounded-xl flex items-center justify-center shrink-0 transition-all cursor-pointer"
         >
           <Send className="w-4 h-4" />

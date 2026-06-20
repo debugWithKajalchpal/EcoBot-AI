@@ -147,6 +147,19 @@ export default function App() {
     localStorage.setItem('eco_carbon_logs_v1', JSON.stringify(updatedLogs));
   };
 
+  const handleClearHistory = async () => {
+    try {
+      saveLogs([]);
+      await fetch('/history/clear', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ user_id: 'anonymous_user' })
+      });
+    } catch (e) {
+      console.error("Error purging carbon history logs:", e);
+    }
+  };
+
   const handleAddGeoResult = (result: GeoTrackerResult) => {
     const updated = [result, ...savedTrackers.filter(t => t.name !== result.name)].slice(0, 8);
     setSavedTrackers(updated);
@@ -333,6 +346,7 @@ export default function App() {
                 setSelectedAuditLog(log);
                 setAuditAdvice(`Based on your tracked details, transport and diet sectors contribute significantly. Continue minimizing vehicle idle phases, choose organic composting, and incorporate plant options.`);
               }} 
+              onClearHistory={handleClearHistory}
             />
           )}
 

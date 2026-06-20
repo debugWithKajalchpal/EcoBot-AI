@@ -229,8 +229,9 @@ export default function TrackerQuiz({ onSubmit, isLoading, onClose }: TrackerQui
                   <span className="block text-xs font-semibold text-slate-400">1. What city, state, and country are you in?</span>
                   <div className="grid grid-cols-3 gap-2">
                     <div>
-                      <span className="block text-[10px] text-slate-500 font-bold mb-1">City</span>
+                      <label htmlFor="quick-city" className="block text-[10px] text-slate-500 font-bold mb-1">City</label>
                       <input 
+                        id="quick-city"
                         type="text" 
                         value={answers.city} 
                         onChange={e => setField('city', e.target.value)}
@@ -238,8 +239,9 @@ export default function TrackerQuiz({ onSubmit, isLoading, onClose }: TrackerQui
                       />
                     </div>
                     <div>
-                      <span className="block text-[10px] text-slate-500 font-bold mb-1">State / Province</span>
+                      <label htmlFor="quick-state" className="block text-[10px] text-slate-500 font-bold mb-1">State / Province</label>
                       <input 
+                        id="quick-state"
                         type="text" 
                         value={answers.state} 
                         onChange={e => setField('state', e.target.value)}
@@ -247,8 +249,9 @@ export default function TrackerQuiz({ onSubmit, isLoading, onClose }: TrackerQui
                       />
                     </div>
                     <div>
-                      <span className="block text-[10px] text-slate-500 font-bold mb-1">Country</span>
+                      <label htmlFor="quick-country" className="block text-[10px] text-slate-500 font-bold mb-1">Country</label>
                       <input 
+                        id="quick-country"
                         type="text" 
                         value={answers.country} 
                         onChange={e => setField('country', e.target.value)}
@@ -279,8 +282,9 @@ export default function TrackerQuiz({ onSubmit, isLoading, onClose }: TrackerQui
                 </div>
 
                 <div>
-                  <span className="block text-xs font-semibold text-slate-400 mb-2">3. What period should we calculate for?</span>
+                  <label htmlFor="quick-period" className="block text-xs font-semibold text-slate-400 mb-2">3. What period should we calculate for?</label>
                   <select
+                    id="quick-period"
                     value={answers.period}
                     onChange={e => setField('period', e.target.value as any)}
                     className="w-full text-xs p-2.5 bg-white/5 text-white border border-white/10 rounded-xl"
@@ -298,8 +302,9 @@ export default function TrackerQuiz({ onSubmit, isLoading, onClose }: TrackerQui
             {currentStep === 1 && (
               <div className="space-y-4">
                 <div>
-                  <span className="block text-xs font-semibold text-slate-400 mb-2">4. How did you travel during this period?</span>
+                  <label htmlFor="quick-transport-type" className="block text-xs font-semibold text-slate-400 mb-2">4. How did you travel during this period?</label>
                   <select
+                    id="quick-transport-type"
                     value={answers.transportType}
                     onChange={e => setField('transportType', e.target.value as any)}
                     className="w-full text-xs p-2.5 bg-white/5 text-white border border-white/10 rounded-xl"
@@ -314,11 +319,13 @@ export default function TrackerQuiz({ onSubmit, isLoading, onClose }: TrackerQui
 
                 <div>
                   <div className="flex justify-between text-xs font-semibold text-slate-400 mb-1">
-                    <span>Estimated total transit distance during this period:</span>
+                    <label id="quick-dist-label" htmlFor="quick-transport-distance">Estimated total transit distance during this period:</label>
                     <span className="text-emerald-400 font-mono font-bold">{answers.transportDistance} km</span>
                   </div>
                   <input
+                    id="quick-transport-distance"
                     type="range"
+                    aria-labelledby="quick-dist-label"
                     min="0"
                     max={answers.period === 'daily' ? 120 : answers.period === 'weekly' ? 800 : answers.period === 'monthly' ? 3000 : 36000}
                     step={answers.period === 'daily' ? 5 : answers.period === 'weekly' ? 25 : answers.period === 'monthly' ? 100 : 1000}
@@ -364,8 +371,9 @@ export default function TrackerQuiz({ onSubmit, isLoading, onClose }: TrackerQui
                 </div>
 
                 <div>
-                  <span className="block text-xs font-semibold text-slate-400 mb-2">On-site Solar or Clean Grid Tariffs?</span>
+                  <label htmlFor="quick-clean-energy" className="block text-xs font-semibold text-slate-400 mb-2">On-site Solar or Clean Grid Tariffs?</label>
                   <select
+                    id="quick-clean-energy"
                     value={answers.cleanEnergySource}
                     onChange={e => setField('cleanEnergySource', e.target.value as any)}
                     className="w-full text-xs p-2.5 bg-white/5 text-white border border-white/10 rounded-xl"
@@ -409,8 +417,9 @@ export default function TrackerQuiz({ onSubmit, isLoading, onClose }: TrackerQui
 
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                   <div>
-                    <span className="block text-xs font-semibold text-slate-400 mb-2">7. Shopping levels during this period:</span>
+                    <label htmlFor="quick-shopping-level" className="block text-xs font-semibold text-slate-400 mb-2">7. Shopping levels during this period:</label>
                     <select
+                      id="quick-shopping-level"
                       value={answers.shoppingLevel}
                       onChange={e => setField('shoppingLevel', e.target.value as any)}
                       className="w-full text-xs p-2.5 bg-white/5 text-white border border-white/10 rounded-xl"
@@ -460,22 +469,22 @@ export default function TrackerQuiz({ onSubmit, isLoading, onClose }: TrackerQui
                 <p className="text-[11px] text-slate-400 font-mono">Scope demographics help configure custom local baseline figures.</p>
                 <div className="grid grid-cols-3 gap-3">
                   <div>
-                    <label className="block text-[10px] text-slate-500 font-bold mb-1">City Name</label>
-                    <input type="text" value={answers.city} onChange={e => setField('city', e.target.value)} className="w-full text-xs p-2 bg-white/5 border border-white/10 text-white rounded-lg" />
+                    <label htmlFor="detailed-city" className="block text-[10px] text-slate-500 font-bold mb-1">City Name</label>
+                    <input id="detailed-city" type="text" value={answers.city} onChange={e => setField('city', e.target.value)} className="w-full text-xs p-2 bg-white/5 border border-white/10 text-white rounded-lg" />
                   </div>
                   <div>
-                    <label className="block text-[10px] text-slate-500 font-bold mb-1">State or Territory</label>
-                    <input type="text" value={answers.state} onChange={e => setField('state', e.target.value)} className="w-full text-xs p-2 bg-white/5 border border-white/10 text-white rounded-lg" />
+                    <label htmlFor="detailed-state" className="block text-[10px] text-slate-500 font-bold mb-1">State or Territory</label>
+                    <input id="detailed-state" type="text" value={answers.state} onChange={e => setField('state', e.target.value)} className="w-full text-xs p-2 bg-white/5 border border-white/10 text-white rounded-lg" />
                   </div>
                   <div>
-                    <label className="block text-[10px] text-slate-500 font-bold mb-1">Country</label>
-                    <input type="text" value={answers.country} onChange={e => setField('country', e.target.value)} className="w-full text-xs p-2 bg-white/5 border border-white/10 text-white rounded-lg" />
+                    <label htmlFor="detailed-country" className="block text-[10px] text-slate-500 font-bold mb-1">Country</label>
+                    <input id="detailed-country" type="text" value={answers.country} onChange={e => setField('country', e.target.value)} className="w-full text-xs p-2 bg-white/5 border border-white/10 text-white rounded-lg" />
                   </div>
                 </div>
                 <div className="grid grid-cols-1 md:grid-cols-3 gap-3">
                   <div>
-                    <label className="block text-xs text-slate-400 font-bold mb-1.5">Calculation Period</label>
-                    <select value={answers.period} onChange={e => setField('period', e.target.value as any)} className="w-full text-xs p-2.5 bg-white/5 border border-white/10 text-white rounded-lg">
+                    <label htmlFor="detailed-period" className="block text-xs text-slate-400 font-bold mb-1.5">Calculation Period</label>
+                    <select id="detailed-period" value={answers.period} onChange={e => setField('period', e.target.value as any)} className="w-full text-xs p-2.5 bg-white/5 border border-white/10 text-white rounded-lg">
                       <option value="daily">Typical Day</option>
                       <option value="weekly">Full Week</option>
                       <option value="monthly">Full Month</option>
@@ -483,15 +492,15 @@ export default function TrackerQuiz({ onSubmit, isLoading, onClose }: TrackerQui
                     </select>
                   </div>
                   <div>
-                    <label className="block text-xs text-slate-400 font-bold mb-1.5">Apportionment Basis</label>
-                    <select value={answers.basis} onChange={e => setField('basis', e.target.value as any)} className="w-full text-xs p-2.5 bg-white/5 border border-white/10 text-white rounded-lg">
+                    <label htmlFor="detailed-basis" className="block text-xs text-slate-400 font-bold mb-1.5">Apportionment Basis</label>
+                    <select id="detailed-basis" value={answers.basis} onChange={e => setField('basis', e.target.value as any)} className="w-full text-xs p-2.5 bg-white/5 border border-white/10 text-white rounded-lg">
                       <option value="individual">Apportioned Individual Share</option>
                       <option value="household">Complete Household Total</option>
                     </select>
                   </div>
                   <div>
-                    <label className="block text-xs text-slate-400 font-bold mb-1.5 font-mono">Household Occupants Size</label>
-                    <input type="number" min="1" max="12" value={answers.householdSize} onChange={e => setField('householdSize', parseInt(e.target.value) || 1)} className="w-full text-xs p-2.5 bg-white/5 border border-white/10 text-white rounded-lg" />
+                    <label htmlFor="detailed-household-size" className="block text-xs text-slate-400 font-bold mb-1.5 font-mono">Household Occupants Size</label>
+                    <input id="detailed-household-size" type="number" min="1" max="12" value={answers.householdSize} onChange={e => setField('householdSize', parseInt(e.target.value) || 1)} className="w-full text-xs p-2.5 bg-white/5 border border-white/10 text-white rounded-lg" />
                   </div>
                 </div>
               </div>

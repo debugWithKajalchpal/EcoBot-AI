@@ -86,10 +86,11 @@ export default function RegionalTracker({
 
           <form onSubmit={handleSubmit} className="mt-5 space-y-4">
             <div>
-              <label className="block text-xs font-semibold text-zinc-700 dark:text-zinc-300 mb-1">
+              <label htmlFor="geo-place-name" className="block text-xs font-semibold text-zinc-700 dark:text-zinc-300 mb-1">
                 Region / Place Name
               </label>
               <input
+                id="geo-place-name"
                 type="text"
                 placeholder="e.g. Vancouver"
                 value={profile.name}
@@ -100,10 +101,11 @@ export default function RegionalTracker({
 
             <div className="grid grid-cols-2 gap-3">
               <div>
-                <label className="block text-xs font-semibold text-zinc-700 dark:text-zinc-300 mb-1">
+                <label htmlFor="geo-scope-tier" className="block text-xs font-semibold text-zinc-700 dark:text-zinc-300 mb-1">
                   Scope Tier
                 </label>
                 <select
+                  id="geo-scope-tier"
                   value={profile.tier}
                   onChange={e => setProfile(prev => ({ ...prev, tier: e.target.value as any }))}
                   className="w-full text-xs font-medium rounded-xl border border-zinc-200 dark:border-zinc-750 p-2 bg-white dark:bg-zinc-805 text-zinc-900 dark:text-zinc-100"
@@ -116,10 +118,11 @@ export default function RegionalTracker({
               </div>
 
               <div>
-                <label className="block text-xs font-semibold text-zinc-700 dark:text-zinc-300 mb-1">
+                <label htmlFor="geo-grid-power" className="block text-xs font-semibold text-zinc-700 dark:text-zinc-300 mb-1">
                   Grid Power Mix
                 </label>
                 <select
+                  id="geo-grid-power"
                   value={profile.gridPowerType}
                   onChange={e => setProfile(prev => ({ ...prev, gridPowerType: e.target.value as any }))}
                   className="w-full text-xs font-medium rounded-xl border border-zinc-200 dark:border-zinc-750 p-2 bg-white dark:bg-zinc-805 text-zinc-900 dark:text-zinc-100"
@@ -133,9 +136,9 @@ export default function RegionalTracker({
               </div>
             </div>
 
-            <div className="grid grid-cols-3 gap-2">
+            <div className="grid grid-cols-3 gap-2" role="radiogroup" aria-labelledby="transit-quality-label">
               <div className="col-span-3">
-                <label className="block text-xs font-semibold text-zinc-700 dark:text-zinc-300 mb-1">
+                <label id="transit-quality-label" className="block text-xs font-semibold text-zinc-700 dark:text-zinc-300 mb-1">
                   Public Transit Quality
                 </label>
               </div>
@@ -143,6 +146,9 @@ export default function RegionalTracker({
                 <button
                   key={quality}
                   type="button"
+                  role="radio"
+                  aria-checked={profile.transitInfrastructure === quality}
+                  aria-label={`Public transit infrastructure quality: ${quality}`}
                   onClick={() => setProfile(prev => ({ ...prev, transitInfrastructure: quality }))}
                   className={`p-2 rounded-xl text-center border text-[11px] font-semibold capitalize transition-all ${
                     profile.transitInfrastructure === quality
@@ -155,9 +161,9 @@ export default function RegionalTracker({
               ))}
             </div>
 
-            <div className="grid grid-cols-3 gap-2">
+            <div className="grid grid-cols-3 gap-2" role="radiogroup" aria-labelledby="waste-infra-label">
               <div className="col-span-3">
-                <label className="block text-xs font-semibold text-zinc-700 dark:text-zinc-300 mb-1">
+                <label id="waste-infra-label" className="block text-xs font-semibold text-zinc-700 dark:text-zinc-300 mb-1">
                   Waste & Recycling Infrastructure
                 </label>
               </div>
@@ -169,6 +175,9 @@ export default function RegionalTracker({
                 <button
                   key={opt.value}
                   type="button"
+                  role="radio"
+                  aria-checked={profile.wastePrograms === opt.value}
+                  aria-label={`Waste and recycling infrastructure: ${opt.label}`}
                   onClick={() => setProfile(prev => ({ ...prev, wastePrograms: opt.value as any }))}
                   className={`p-2 rounded-xl text-center border text-[10px] leading-tight font-semibold transition-all ${
                     profile.wastePrograms === opt.value
@@ -181,8 +190,8 @@ export default function RegionalTracker({
               ))}
             </div>
 
-            <div>
-              <label className="block text-xs font-semibold text-zinc-700 dark:text-zinc-300 mb-1">
+            <div role="radiogroup" aria-labelledby="industrial-intensity-label">
+              <label id="industrial-intensity-label" className="block text-xs font-semibold text-zinc-700 dark:text-zinc-300 mb-1">
                 Industrial Intensity
               </label>
               <div className="grid grid-cols-3 gap-2">
@@ -190,11 +199,14 @@ export default function RegionalTracker({
                   <button
                     key={intensity}
                     type="button"
+                    role="radio"
+                    aria-checked={profile.industrialActivity === intensity}
+                    aria-label={`Industrial Activity: ${intensity}`}
                     onClick={() => setProfile(prev => ({ ...prev, industrialActivity: intensity }))}
                     className={`p-2 rounded-xl text-center border text-[11px] font-semibold capitalize transition-all ${
                       profile.industrialActivity === intensity
                         ? 'bg-indigo-50 border-indigo-500 text-indigo-700 dark:bg-indigo-950/40 dark:border-indigo-550 dark:text-indigo-400'
-                        : 'bg-white dark:bg-zinc-900 border-zinc-250 dark:border-zinc-800 text-zinc-600 dark:text-zinc-400 hover:bg-zinc-50 dark:hover:bg-zinc-800'
+                        : 'bg-white dark:bg-zinc-900 border-zinc-250 dark:border-zinc-800 text-zinc-600 dark:text-zinc-400 hover:bg-zinc-50 dark:hover:bg-zinc-805'
                     }`}
                   >
                     {intensity}
@@ -345,7 +357,7 @@ export default function RegionalTracker({
                 Carbon Breakdown vs Benchmark average (Tonnes per Capita)
               </h4>
               <div className="h-60 w-full bg-zinc-50 dark:bg-zinc-900 rounded-2xl p-2 border border-zinc-100 dark:border-zinc-800">
-                <ResponsiveContainer width="100%" height="100%">
+                <ResponsiveContainer width="100%" height={220}>
                   <BarChart
                     data={activeTracker.breakdown}
                     margin={{ top: 10, right: 10, left: -20, bottom: 5 }}
